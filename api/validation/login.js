@@ -1,5 +1,5 @@
 const Validator = require('validator');
-import _ from 'lodash';
+const _ = require('lodash');
 
 module.exports = function validateLoginInput(data) {
     let errors = {};
@@ -24,6 +24,6 @@ module.exports = function validateLoginInput(data) {
 
     return {
         errors,
-        isValid: isEmpty(errors)
+        isValid: _.isEmpty(errors)
     }
 }

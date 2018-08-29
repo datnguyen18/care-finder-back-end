@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
 const registerRoute = require('./api/route/register');
-const loginRoute = require('./api/route/login')
+const loginRoute = require('./api/route/login');
+const clinicRoute = require('./api/route/clinic');
 mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true });
 
 app.use(morgan('dev'));
@@ -16,4 +17,5 @@ app.use(bodyParser.json());
 
 app.use('/register', registerRoute);
 app.use('/login',loginRoute);
+app.use('/clinic',clinicRoute);
 module.exports = app;

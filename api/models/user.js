@@ -28,7 +28,15 @@ const UserSchema = new Schema({
     gender: {
         type: String,
         required: true
-    }
+    },
+    profileImageUrl: {
+        type: String
+    },
+    isNormalUser: {
+        type: Boolean,
+        default: false
+    },
+    follows : [Schema.Types.ObjectId]
 });
 UserSchema.plugin(uniqueValidator)
 const User = mongoose.model('users', UserSchema);

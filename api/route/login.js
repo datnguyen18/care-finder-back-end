@@ -21,6 +21,7 @@ router.post('/',(req, res) => {
                        failed: 'Unauthorized Access'
                     });
                  }
+                 
                  if(result) {
                      const token = jwt.sign({
                          email: user.email,
@@ -34,6 +35,7 @@ router.post('/',(req, res) => {
                        token
                     });
                  }
+
                  return res.status(401).json({
                     failed: 'Unauthorized Access'
                  });

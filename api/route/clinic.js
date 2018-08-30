@@ -20,7 +20,7 @@ router.post('/', (req,res) => {
         .then(result => {
             console.log(result);
             res.status(200).json({
-                message: 'Handling POST requests to /register ',
+                message: 'Handling POST requests to /clinic ',
                 createdClinic: clinic
             })
         })

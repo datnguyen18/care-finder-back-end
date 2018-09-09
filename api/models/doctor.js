@@ -37,8 +37,14 @@ const DoctorSchema = new Schema({
         type: Number,
         default: 0
     },
-    imageOfIdentification:String,
-    imageOfDiploma: String,
+    imageOfIdentification:{
+        type:String,
+        required: true
+    },
+    imageOfDiploma: {
+        type:String,
+        required: true
+    },
     isVerified: {
         type: Boolean,
         default: false

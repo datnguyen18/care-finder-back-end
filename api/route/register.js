@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
       cb(null, './uploads')
     },
     filename: function (req, file, cb) {
-      cb(null, file.originalname + '-' + Date.now())
+      cb(null, new Date().toISOString()+ file.originalname)
     }
   })
   
@@ -85,8 +85,8 @@ router.post('/doctor', upload.fields([{name: 'imageOfIdentification'}, {name:'im
                 email: req.body.email,
                 password: hash,
                 gender: req.body.gender,
-                imageOfIdentification: req.files.imageOfIdentification[0].filename,
-                imageOfDiploma: req.files.imageOfDiploma[0].filename
+                imageOfIdentification: "http://localhost:3000/uploads/"+req.files.imageOfIdentification[0].filename,
+                imageOfDiploma: "http://localhost:3000/uploads/"+req.files.imageOfDiploma[0].filename
             })
             doctor.save()
                 .then(result => {
@@ -104,4 +104,5 @@ router.post('/doctor', upload.fields([{name: 'imageOfIdentification'}, {name:'im
         }
     })
 })
+
 module.exports = router

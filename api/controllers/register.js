@@ -22,8 +22,8 @@ exports.register_user = (req, res) => {
         } else {
             const user = new User({
                 _id: new mongoose.Types.ObjectId(),
-                firstName: req.body.firstName,
-                lastName: req.body.lastName,
+                name: req.body.name,
+                phoneNumber: req.body.phoneNumber,
                 email: req.body.email,
                 password: hash,
                 gender: req.body.gender
@@ -45,7 +45,7 @@ exports.register_user = (req, res) => {
     })
 }
 
-exports.register_doctor = (req,res) => {
+exports.register_doctor = (req, res) => {
     console.log('====================================');
     console.log(req.files);
     console.log('====================================');
@@ -70,8 +70,8 @@ exports.register_doctor = (req,res) => {
                 email: req.body.email,
                 password: hash,
                 gender: req.body.gender,
-                imageOfIdentification: "http://localhost:3000/uploads/"+req.files.imageOfIdentification[0].filename,
-                imageOfDiploma: "http://localhost:3000/uploads/"+req.files.imageOfDiploma[0].filename
+                imageOfIdentification: "http://localhost:3000/uploads/" + req.files.imageOfIdentification[0].filename,
+                imageOfDiploma: "http://localhost:3000/uploads/" + req.files.imageOfDiploma[0].filename
             })
             doctor.save()
                 .then(result => {

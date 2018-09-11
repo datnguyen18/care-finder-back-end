@@ -4,9 +4,11 @@ const mongoose = require('mongoose');
 const User = require('../models/user');
 const Clinic = require('../models/clinic');
 const _ = require('lodash');
-
-router.post('/', (req,res) => {
-
+const upload = require('../config/multer');
+router.post('/',upload.array('imageUrls', 8), (req,res) => {
+    console.log('====================================');
+    console.log(req.files);
+    console.log('====================================');
     const clinic = new Clinic({
         _id: new mongoose.Types.ObjectId(),
         _idDoctor: req.body._idDoctor,

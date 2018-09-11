@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const Schema = mongoose.Schema;
-
+const ReviewSchema = require('./review');
 const ClinicSchema = new Schema({
     _idDoctor: {
         type: String,
@@ -32,10 +32,10 @@ const ClinicSchema = new Schema({
         type: String,
         required: true
     },
-    imageUrl : {
+    imageUrls : [{
         type: String,
         required: true
-    },
+    }],
     rating: {
         type: Number
     },
@@ -47,17 +47,7 @@ const ClinicSchema = new Schema({
         from: Date,
         to: Date
     },
-    review: [{
-        id: Schema.Types.ObjectId,
-        content: String,
-        date: Date,
-        rating:{
-            location: Number,
-            price: Number,
-            quality: Number,
-            attitude: Number
-        }
-    }],
+    review: [ReviewSchema],
     numberOfFollows : {
         type: Number,
         default: 0

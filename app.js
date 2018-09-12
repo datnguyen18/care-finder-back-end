@@ -12,7 +12,7 @@ const verifyRoute = require('./api/route/verifyDoctor');
 mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true });
 
 app.use(morgan('dev'));
-app.use('/uploads',express.static('uploads'));
+app.use('/uploads',express.static('/uploads'));
 app.use(bodyParser.urlencoded({
     extended: false
 }))

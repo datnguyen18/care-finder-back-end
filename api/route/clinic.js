@@ -5,9 +5,21 @@ const User = require('../models/user');
 const Clinic = require('../models/clinic');
 const _ = require('lodash');
 const upload = require('../config/multer');
+
+router.get('/',(req,res) => {
+    Clinic.find().then(doc => {
+        res.status(200).send({all: doc})
+    }).catch(err => {res.status(404).send({err:err})})
+})
 router.post('/',upload.array('imageUrls', 8), (req,res) => {
+
+    let urls = []
+    req.files.forEach(element => {
+        urls.push('http://localhost:3000/'+element.path)
+    });
+
     console.log('====================================');
-    console.log(req.files);
+    console.log(urls);
     console.log('====================================');
     const clinic = new Clinic({
         _id: new mongoose.Types.ObjectId(),
@@ -16,7 +28,7 @@ router.post('/',upload.array('imageUrls', 8), (req,res) => {
         address: req.body.address,
         department: req.body.department,
         phoneNumber: req.body.phoneNumber,
-        imageUrl: req.body.imageUrl
+        imageUrls: urls
     })
 
     clinic.save()

@@ -1,50 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
+
 const User = require('../models/user');
 const Clinic = require('../models/clinic');
 const _ = require('lodash');
 const upload = require('../config/multer');
-
+const ClinicController = require('../controllers/clinic');
 router.get('/',(req,res) => {
     Clinic.find().then(doc => {
         res.status(200).send({all: doc})
     }).catch(err => {res.status(404).send({err:err})})
 })
-router.post('/',upload.array('imageUrls', 8), (req,res) => {
-
-    let urls = []
-    req.files.forEach(element => {
-        urls.push('http://localhost:3000/'+element.path)
-    });
-
-    console.log('====================================');
-    console.log(urls);
-    console.log('====================================');
-    const clinic = new Clinic({
-        _id: new mongoose.Types.ObjectId(),
-        _idDoctor: req.body._idDoctor,
-        name: req.body.name,
-        address: req.body.address,
-        department: req.body.department,
-        phoneNumber: req.body.phoneNumber,
-        imageUrls: urls
-    })
-
-    clinic.save()
-        .then(result => {
-            console.log(result);
-            res.status(200).json({
-                message: 'Handling POST requests to /clinic ',
-                createdClinic: clinic
-            })
-        })
-        .catch(err => {
-            res.status(500).json({
-                error:err
-            })
-        })
-})
+//create new clinic
+router.post('/',upload.array('imageUrls', 8), ClinicController.create_new_clinic);
 //follow a clinic by idClinic and need current userID in body
 router.post('/follow/:idClinic', (req,res) => {
     const idClinic = req.params.idClinic;

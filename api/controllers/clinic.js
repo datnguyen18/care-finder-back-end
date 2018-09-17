@@ -61,3 +61,23 @@ exports.follow_clinic = (req,res) => {
                
     })
 }
+
+exports.unfollow_clinic = (req,res) => {
+    const idClinic = req.params.idClinic;
+    const idUser = req.body._idUser;
+    User.findById(idUser, (err,result)=> {
+       
+            Clinic.update({_id:idClinic}, {$inc :{numberOfFollows:-1}},{'new': true},(err, doc) => {
+                if(err){
+                    return res.status(500).json({error:err})
+                }
+                User.update({_id: idUser},{$pull:{follows: idClinic}}, (err,doc) => {
+                    if(err) {
+                        return res.status(500).json({error: err})
+                    }
+                })
+                res.status(200).json({doc})
+            })
+               
+    })
+}

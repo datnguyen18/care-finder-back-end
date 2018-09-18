@@ -1,5 +1,7 @@
 const Clinic = require('../models/clinic');
 const mongoose = require('mongoose');
+const User = require('../models/user');
+const Review = require('../models/review');
 
 exports.create_new_clinic = (req,res) => {
 
@@ -80,4 +82,41 @@ exports.unfollow_clinic = (req,res) => {
             })
                
     })
+}
+
+exports.comment_on_clinic = (req, res) => {
+    const idClinic = req.params.idClinic;
+    const review = new Review({
+        _idUser: req.body._idUser,
+        content: req.body.content,
+        date: Date.now(),
+        rating: req.body.rating
+    })
+
+    Clinic.findByIdAndUpdate(idClinic,{$push: {reviews: review}}, {new: true}, (err, res) => {
+        if(err) {
+            res.status(404).json({err})
+        }
+
+
+    })
+}
+
+exports.modify_clinic = (req, res)=>{
+    const idClinic = req.params.idClinic;
+    const address = req.body.address;
+    const coordinates = req.body.coordinates;
+    const timePeriod = req.body.timePeriod;
+
+    Clinic.findByIdAndUpdate(idClinic,{$set:{
+        address,
+        coordinates,
+        timePeriod
+    }},{new: true}, (err, result) => {
+        if(err) {res.status(404).json({err})}
+        res.status(200).json({
+            result
+        })
+    })
+    
 }

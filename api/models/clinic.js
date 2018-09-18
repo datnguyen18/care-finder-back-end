@@ -44,10 +44,10 @@ const ClinicSchema = new Schema({
         lng: String
     },
     timePeriod: {
-        from: Date,
-        to: Date
+        from: Number,
+        to: Number
     },
-    review: [ReviewSchema],
+    reviews: [ReviewSchema],
     numberOfFollows : {
         type: Number,
         default: 0

@@ -17,4 +17,6 @@ router.post('/',upload.array('imageUrls', 8), ClinicController.create_new_clinic
 router.post('/follow/:idClinic', ClinicController.follow_clinic)
 
 router.post('/unfollow/:idClinic', ClinicController.unfollow_clinic)
+//update coordinates and address
+router.patch('/modify/:idClinic', ClinicController.modify_clinic);
 module.exports = router;

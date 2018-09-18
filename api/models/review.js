@@ -3,8 +3,14 @@ const uniqueValidator = require('mongoose-unique-validator')
 
 const Schema = mongoose.Schema;
 const ReviewSchema = new Schema({
-    idUser: Schema.Types.ObjectId,
-    content: String,
+    _idUser: {
+        type: Schema.Types.ObjectId,
+        required:true
+    },
+    content: {
+        type:String,
+        required: true
+    },
     date: Date,
     rating:{
         location: Number,

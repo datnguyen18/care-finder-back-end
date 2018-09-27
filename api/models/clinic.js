@@ -47,7 +47,7 @@ const ClinicSchema = new Schema({
         from: Number,
         to: Number
     },
-    reviews: [ReviewSchema],
+    reviews: [Schema.Types.Array],
     numberOfFollows : {
         type: Number,
         default: 0

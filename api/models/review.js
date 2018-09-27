@@ -19,4 +19,6 @@ const ReviewSchema = new Schema({
         attitude: Number
     }
 })
-module.exports = ReviewSchema;
+
+const Review = mongoose.model('reviews', ReviewSchema);
+module.exports = Review;

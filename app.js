@@ -8,7 +8,7 @@ const registerRoute = require('./api/route/register');
 const loginRoute = require('./api/route/login');
 const clinicRoute = require('./api/route/clinic');
 const verifyRoute = require('./api/route/verifyDoctor');
-
+const cors = require('cors');
 mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true });
 
 app.use(morgan('dev'));
@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({
     extended: false
 }))
 app.use(bodyParser.json());
-
+app.use(cors());
 app.use('/register', registerRoute);
 app.use('/login',loginRoute);
 app.use('/clinic',clinicRoute);

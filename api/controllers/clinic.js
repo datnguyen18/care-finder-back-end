@@ -180,7 +180,8 @@ exports.modify_clinic = (req, res) => {
 	})
 
 }
-//sgasga
+//sgasgadddd
+//52553252
 exports.get_clinic = (req, res) => {
 	const idClinic = req.params.idClinic;
 

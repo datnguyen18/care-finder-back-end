@@ -4,7 +4,11 @@ const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
         type: String,
         required: true
     },
@@ -31,6 +35,10 @@ const UserSchema = new Schema({
     },
     profileImageUrl: {
         type: String
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     },
     follows : [Schema.Types.ObjectId]
 });

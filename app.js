@@ -22,4 +22,5 @@ app.use('/register', registerRoute);
 app.use('/login',loginRoute);
 app.use('/clinic',clinicRoute);
 app.use('/verify',verifyRoute);
+
 module.exports = app;

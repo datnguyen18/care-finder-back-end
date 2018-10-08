@@ -6,6 +6,8 @@ const Clinic = require('../models/clinic');
 const _ = require('lodash');
 const upload = require('../config/multer');
 const ClinicController = require('../controllers/clinic');
+const checkAuth = require('../middleware/check-auth');
+
 router.get('/',(req,res) => {
     Clinic.find().then(doc => {
         res.status(200).send({all: doc})
@@ -18,7 +20,7 @@ router.get('/',ClinicController.get_all_clinic);
 //create new clinic
 router.post('/',upload.array('imageUrls', 8), ClinicController.create_new_clinic);
 //follow a clinic by idClinic and need current userID in body
-router.post('/follow/:idClinic', ClinicController.follow_clinic)
+router.post('/follow/:idClinic',checkAuth, ClinicController.follow_clinic)
 
 router.post('/unfollow/:idClinic', ClinicController.unfollow_clinic)
 //update coordinates and address

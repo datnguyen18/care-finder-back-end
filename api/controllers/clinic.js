@@ -2,12 +2,12 @@ const Clinic = require('../models/clinic');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const Comment = require('../models/review');
-
+const ip = require('ip');
 exports.create_new_clinic = (req, res) => {
 
 	let urls = []
 	req.files.forEach(element => {
-		urls.push('http://localhost:3000/' + element.path)
+		urls.push('http://'+ip.address()+':3000/' + element.path)
 	});
 
 	console.log('====================================');
@@ -180,7 +180,7 @@ exports.modify_clinic = (req, res) => {
 	})
 
 }
-//sgasga
+//get all clinic by id
 exports.get_clinic = (req, res) => {
 	const idClinic = req.params.idClinic;
 

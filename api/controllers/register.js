@@ -4,9 +4,11 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/user');
 const Doctor = require('../models/doctor');
+
 const Client = require('authy-client').Client;
 const authy = new Client({ key: process.env.API_KEY })
 const enums = require('authy-client').enums;
+
 exports.register_user = (req, res) => {
   const {
     errors,

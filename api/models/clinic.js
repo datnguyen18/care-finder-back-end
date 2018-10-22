@@ -40,12 +40,24 @@ const ClinicSchema = new Schema({
         type: Number
     },
     coordinates : {
-        lat: String,
-        lng: String
+        lat: {
+          type:Number,
+          default: 0,
+        },
+        lng: {
+          type:Number,
+          default: 0
+        }
     },
     timePeriod: {
-        from: Number,
-        to: Number
+        from: {
+          type: Number,
+          default:0
+        },
+        to: {
+          type: Number,
+          default:0
+        }
     },
     reviews: [Schema.Types.Array],
     numberOfFollows : {

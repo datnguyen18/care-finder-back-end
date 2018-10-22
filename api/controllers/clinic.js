@@ -7,7 +7,7 @@ exports.create_new_clinic = (req, res) => {
 
 	let urls = []
 	req.files.forEach(element => {
-		urls.push('http://'+ip.address()+':3000/' + element.path)
+		urls.push('http://localhost:3000/' + element.path)
 	});
 
 	console.log('====================================');

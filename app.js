@@ -1,4 +1,5 @@
 const express = require('express');
+
 const app = express();
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
@@ -10,18 +11,18 @@ const clinicRoute = require('./api/route/clinic');
 const verifyRoute = require('./api/route/verifyDoctor');
 const userRoute = require('./api/route/user');
 const cors = require('cors');
-mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true });
-
+mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true});
 app.use(morgan('dev'));
-app.use('/uploads',express.static('./uploads'));
+app.use('/uploads', express.static('./uploads'));
 app.use(bodyParser.urlencoded({
-    extended: false
-}))
+  extended: false,
+}));
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/register', registerRoute);
-app.use('/login',loginRoute);
-app.use('/clinic',clinicRoute);
-app.use('/verify',verifyRoute);
-app.use('/',userRoute);
+app.use('/login', loginRoute);
+app.use('/clinic', clinicRoute);
+app.use('/verify', verifyRoute);
+app.use('/', userRoute);
+
 module.exports = app;

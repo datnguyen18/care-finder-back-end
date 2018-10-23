@@ -22,45 +22,45 @@ const ClinicSchema = new Schema({
             required: true
         },
         type: Object,
-        required:true
+        required: true
     },
     department: {
         type: String,
         required: true
     },
-    phoneNumber :{
+    phoneNumber: {
         type: String,
         required: true
     },
-    imageUrls : [{
+    imageUrls: [{
         type: String,
         required: true
     }],
     rating: {
         type: Number
     },
-    coordinates : {
-        lat: {
-          type:Number,
-          default: 0,
+    coordinates: {
+        latitude: {
+            type: Number,
+            default: 0,
         },
-        lng: {
-          type:Number,
-          default: 0
+        longitude: {
+            type: Number,
+            default: 0
         }
     },
     timePeriod: {
         from: {
-          type: Number,
-          default:0
+            type: Number,
+            default: 0
         },
         to: {
-          type: Number,
-          default:0
+            type: Number,
+            default: 0
         }
     },
     reviews: [Schema.Types.Array],
-    numberOfFollows : {
+    numberOfFollows: {
         type: Number,
         default: 0
     }

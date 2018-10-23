@@ -12,7 +12,8 @@ exports.get_current_user = (req,res) => {
         firstName,
         phoneNumber,
         follows,
-        gender
+        gender,
+        email
       })
     })
     .catch(err => res.status(404).json({err}))

@@ -5,7 +5,7 @@ exports.get_current_user = (req,res) => {
 
   User.findById(userId).exec()
     .then(doc =>{
-      const {lastName, firstName, gender,phoneNumber, follows} = doc;
+      const {lastName, firstName, gender,phoneNumber, follows, email} = doc;
 
       res.status(200).json({
         lastName,

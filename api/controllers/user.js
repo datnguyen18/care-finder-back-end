@@ -5,7 +5,7 @@ exports.get_current_user = (req,res) => {
 
   User.findById(userId).exec()
     .then(doc =>{
-      const {lastName, firstName, gender,phoneNumber, follows, email} = doc;
+      const {lastName, firstName, gender,phoneNumber, follows, email,avatar} = doc;
 
       res.status(200).json({
         lastName,
@@ -13,7 +13,8 @@ exports.get_current_user = (req,res) => {
         phoneNumber,
         follows,
         gender,
-        email
+        email,
+        avatar
       })
     })
     .catch(err => res.status(404).json({err}))

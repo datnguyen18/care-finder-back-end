@@ -40,7 +40,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    follows : [Schema.Types.ObjectId]
+    follows : [Schema.Types.ObjectId],
+    avatar: {
+      type: String
+    }
 });
 UserSchema.plugin(uniqueValidator)
 const User = mongoose.model('users', UserSchema);

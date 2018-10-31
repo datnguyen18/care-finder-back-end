@@ -37,7 +37,8 @@ const ClinicSchema = new Schema({
         required: true
     }],
     rating: {
-        type: Number
+        type: Number,
+        default: 0
     },
     coordinates: {
         latitude: {

@@ -40,9 +40,10 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    follows : [Schema.Types.ObjectId],
+    follows: [Schema.Types.ObjectId],
     avatar: {
-      type: String
+        type: String,
+        default: 'http://icons-for-free.com/free-icons/png/512/2694141.png'
     }
 });
 UserSchema.plugin(uniqueValidator)

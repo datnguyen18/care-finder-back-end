@@ -51,13 +51,13 @@ exports.follow_clinic = (req, res) => {
         });
     }
 
-    Clinic.update({_id: idClinic}, {$inc: {numberOfFollows: 1}}, {'new': true}, (err, doc) => {
+    Clinic.update({ _id: idClinic }, { $inc: { numberOfFollows: 1 } }, { 'new': true }, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
         });
       }
-      User.update({_id: idUser}, {
+      User.update({ _id: idUser }, {
         $push: {
           follows: idClinic
         }
@@ -80,13 +80,13 @@ exports.unfollow_clinic = (req, res) => {
   const idClinic = req.params.idClinic;
   const idUser = req.body._idUser;
   User.findById(idUser, (err, result) => {
-    Clinic.update({_id: idClinic}, {$inc: {numberOfFollows: -1}}, {'new': true}, (err, doc) => {
+    Clinic.update({ _id: idClinic }, { $inc: { numberOfFollows: -1 } }, { 'new': true }, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
         });
       }
-      User.update({_id: idUser}, {
+      User.update({ _id: idUser }, {
         $pull: {
           follows: idClinic
         }
@@ -114,7 +114,7 @@ exports.comment_on_clinic = (req, res) => {
     rating: req.body.rating
   });
 
-  Clinic.findByIdAndUpdate(idClinic, {$push: {reviews: comment}}, {new: true}, (err, doc) => {
+  Clinic.findByIdAndUpdate(idClinic, { $push: { reviews: comment } }, { new: true }, (err, doc) => {
     if (err) {
       res.status(404).json({
         err
@@ -140,17 +140,17 @@ exports.modify_clinic = (req, res) => {
       timePeriod
     }
   }, {
-    new: true
-  }, (err, result) => {
-    if (err) {
-      res.status(404).json({
-        err
+      new: true
+    }, (err, result) => {
+      if (err) {
+        res.status(404).json({
+          err
+        });
+      }
+      res.status(200).json({
+        result
       });
-    }
-    res.status(200).json({
-      result
     });
-  });
 
 };
 //get all clinic by id

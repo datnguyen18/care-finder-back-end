@@ -22,13 +22,12 @@ exports.create_new_location = (req, res) => {
     phoneNumber: req.body.phoneNumber,
     imageUrls: urls
   });
-
-  Location.save()
+  location.save()
     .then(result => {
       console.log(result);
       res.status(200).json({
         message: 'Handling POST requests to /Location ',
-        createdLocation: Location
+        createdLocation: location
       });
     })
     .catch(err => {

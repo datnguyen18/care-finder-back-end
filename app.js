@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 
 const registerRoute = require('./api/route/register');
 const loginRoute = require('./api/route/login');
-const clinicRoute = require('./api/route/clinic');
+const locationRoute = require('./api/route/location');
 const doctorRoute = require('./api/route/doctor');
 const userRoute = require('./api/route/user');
 const cors = require('cors');
@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/register', registerRoute);
 app.use('/login', loginRoute);
-app.use('/clinic', clinicRoute);
+app.use('/location', locationRoute);
 app.use('/doctor', doctorRoute);
 app.use('/', userRoute);
 app.use('/user', userRoute);

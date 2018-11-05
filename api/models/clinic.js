@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 const ReviewSchema = require('./review');
-const ClinicSchema = new Schema({
+const LocationSchema = new Schema({
     _idDoctor: {
         type: String,
         required: true
@@ -59,12 +59,18 @@ const ClinicSchema = new Schema({
             default: 0
         }
     },
-    reviews: [Schema.Types.Array],
+    reviews: {
+      type: [ReviewSchema]
+    },
     numberOfFollows: {
         type: Number,
         default: 0
+    },
+    date: {
+      type: Date,
+      default: new Date()
     }
 });
 
-const Clinic = mongoose.model('clinics', ClinicSchema);
-module.exports = Clinic;
+const Location = mongoose.model('locations', LocationSchema);
+module.exports = Location;

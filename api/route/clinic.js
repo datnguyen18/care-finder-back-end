@@ -2,25 +2,25 @@ const express = require('express');
 const router = express.Router();
 
 const User = require('../models/user');
-const Clinic = require('../models/clinic');
+const Clinic = require('../models/location');
 const _ = require('lodash');
 const upload = require('../config/multer');
-const ClinicController = require('../controllers/clinic');
+const LocationController = require('../controllers/location');
 const checkAuth = require('../middleware/check-auth');
 
 //get clinic
-router.get('/:idLocation',ClinicController.get_clinic);
+router.get('/:idLocation',LocationController.get_Location);
 //get all clinic
-router.get('/',ClinicController.get_all_clinic);
+router.get('/',LocationController.get_all_Location);
 //create new clinic
-router.post('/',upload.array('imageUrls', 8), ClinicController.create_new_clinic);
+router.post('/',upload.array('imageUrls', 8), LocationController.create_new_location);
 //follow a clinic by idLocation and need current userID in body
-router.post('/follow/:idLocation',checkAuth, ClinicController.follow_clinic);
+router.post('/follow/:idLocation',checkAuth, LocationController.follow_location);
 
-router.post('/unfollow/:idLocation', ClinicController.unfollow_clinic);
+router.post('/unfollow/:idLocation', LocationController.unfollow_Location);
 //update coordinates and address
-router.patch('/modify/:idLocation', ClinicController.modify_clinic);
+router.patch('/modify/:idLocation', LocationController.modify_Location);
 //comment on clinic
-router.patch('/comment/:idLocation', ClinicController.comment_on_clinic);
+router.patch('/comment/:idLocation', LocationController.comment_on_Location);
 
 module.exports = router;

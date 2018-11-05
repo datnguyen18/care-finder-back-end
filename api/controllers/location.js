@@ -1,9 +1,9 @@
-const Clinic = require('../models/clinic');
+const Location = require('../models/location');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const Comment = require('../models/review');
 
-exports.create_new_clinic = (req, res) => {
+exports.create_new_location = (req, res) => {
   let urls = [];
   req.files.forEach(element => {
     urls.push('http://localhost:3000/' + element.path);
@@ -13,7 +13,7 @@ exports.create_new_clinic = (req, res) => {
   console.log(urls);
   console.log('====================================');
 
-  const clinic = new Clinic({
+  const location = new Location({
     _id: new mongoose.Types.ObjectId(),
     _idDoctor: req.body._idDoctor,
     name: req.body.name,
@@ -23,12 +23,12 @@ exports.create_new_clinic = (req, res) => {
     imageUrls: urls
   });
 
-  clinic.save()
+  Location.save()
     .then(result => {
       console.log(result);
       res.status(200).json({
-        message: 'Handling POST requests to /clinic ',
-        createdClinic: clinic
+        message: 'Handling POST requests to /Location ',
+        createdLocation: Location
       });
     })
     .catch(err => {
@@ -38,7 +38,7 @@ exports.create_new_clinic = (req, res) => {
     });
 };
 
-exports.follow_clinic = (req, res) => {
+exports.follow_location = (req, res) => {
   const idLocation = req.params.idLocation;
   const idUser = req.body._idUser;
   User.findById(idUser, (err, result) => {
@@ -51,7 +51,7 @@ exports.follow_clinic = (req, res) => {
         });
     }
 
-    Clinic.update({_id: idLocation}, {$inc: {numberOfFollows: 1}}, {'new': true}, (err, doc) => {
+    Location.update({_id: idLocation}, {$inc: {numberOfFollows: 1}}, {'new': true}, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
@@ -76,11 +76,11 @@ exports.follow_clinic = (req, res) => {
   });
 };
 
-exports.unfollow_clinic = (req, res) => {
+exports.unfollow_Location = (req, res) => {
   const idLocation = req.params.idLocation;
   const idUser = req.body._idUser;
   User.findById(idUser, (err, result) => {
-    Clinic.update({_id: idClinic}, {$inc: {numberOfFollows: -1}}, {'new': true}, (err, doc) => {
+    Location.update({_id: idLocation}, {$inc: {numberOfFollows: -1}}, {'new': true}, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
@@ -105,7 +105,7 @@ exports.unfollow_clinic = (req, res) => {
   });
 };
 //need_to_done
-exports.comment_on_clinic = (req, res) => {
+exports.comment_on_Location = (req, res) => {
   const idLocation = req.params.idLocation;
   const comment = new Comment({
     _idUser: req.body._idUser,
@@ -114,7 +114,7 @@ exports.comment_on_clinic = (req, res) => {
     rating: req.body.rating
   });
 
-  Clinic.findByIdAndUpdate(idClinic, {$push: {reviews: comment}}, {new: true}, (err, doc) => {
+  Location.findByIdAndUpdate(idLocation, {$push: {reviews: comment}}, {new: true}, (err, doc) => {
     if (err) {
       res.status(404).json({
         err
@@ -127,13 +127,13 @@ exports.comment_on_clinic = (req, res) => {
   });
 };
 
-exports.modify_clinic = (req, res) => {
+exports.modify_Location = (req, res) => {
   const idLocation = req.params.idLocation;
   const address = req.body.address;
   const coordinates = req.body.coordinates;
   const timePeriod = req.body.timePeriod;
 
-  Clinic.findByIdAndUpdate(idLocation, {
+  Location.findByIdAndUpdate(idLocation, {
     $set: {
       address,
       coordinates,
@@ -153,11 +153,11 @@ exports.modify_clinic = (req, res) => {
     });
 
 };
-//get all clinic by id
-exports.get_clinic = (req, res) => {
+//get all Location by id
+exports.get_Location = (req, res) => {
   const idLocation = req.params.idLocation;
 
-  Clinic.findById(idLocation).exec()
+  Location.findById(idLocation).exec()
     .then(doc => {
       res.status(200).json({
         doc: doc
@@ -170,9 +170,9 @@ exports.get_clinic = (req, res) => {
     });
 };
 
-exports.get_all_clinic = (req, res) => {
+exports.get_all_Location = (req, res) => {
   if(!req.query.last){
-    Clinic.find()
+    Location.find()
     .then(doc => {
       res.status(200).json({
         doc: doc
@@ -184,7 +184,7 @@ exports.get_all_clinic = (req, res) => {
   }else{
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - parseInt(req.query.last));
-    Clinic.find({"date":
+    Location.find({"date":
       { $gte : lastWeek }}
     )
       .exec()

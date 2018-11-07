@@ -1,7 +1,7 @@
 const Location = require('../models/location');
 const mongoose = require('mongoose');
 const User = require('../models/user');
-const Comment = require('../models/review');
+const Review = require('../models/review');
 
 exports.create_new_location = (req, res) => {
   let urls = [];
@@ -106,25 +106,30 @@ exports.unfollow_Location = (req, res) => {
 //need_to_done
 exports.comment_on_Location = (req, res) => {
   const idLocation = req.params.idLocation;
-  const comment = new Comment({
-    _idUser: req.body._idUser,
-    content: req.body.content,
-    date: Date.now(),
-    rating: req.body.rating
-  });
-
-  Location.findByIdAndUpdate(idLocation, {$push: {reviews: comment}}, {new: true}, (err, doc) => {
+  const {content, rating, _idUser} = req.body
+  Location.findByIdAndUpdate(idLocation, {$push: {reviews: req.body}}, {new: true}, (err, doc) => {
     if (err) {
       res.status(404).json({
         err
       });
     }
-    res.status(200).json({
-      doc
-    });
-
+    console.log(doc.ratingAvg.location)
+    const length = doc.reviews.length;
+    doc.ratingAvg.location = calculateAvg(doc.ratingAvg.location, rating.location, length);
+    doc.ratingAvg.price = calculateAvg(doc.ratingAvg.price, rating.price, length);
+    doc.ratingAvg.quality = calculateAvg(doc.ratingAvg.quality, rating.quality, length);
+    doc.ratingAvg.attitude = calculateAvg(doc.ratingAvg.attitude, rating.attitude, length);
+    doc.totalRatingAvg = (doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude)/4;
+    doc.save((error) => {
+      res.status(200).json({doc})
+    })
+    
   });
 };
+
+calculateAvg = (current, newVal, length) => {
+    return Math.round(((current*(length-1))+ newVal)/length*10)/10
+}
 
 exports.modify_Location = (req, res) => {
   const idLocation = req.params.idLocation;

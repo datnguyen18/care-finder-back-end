@@ -36,7 +36,25 @@ const LocationSchema = new Schema({
         type: String,
         required: true
     }],
-    rating: {
+    ratingAvg: {
+        location: {
+          type:Number,
+          default: 0
+        },
+        price: {
+          type:Number,
+          default: 0
+        },
+        quality: {
+          type:Number,
+          default: 0
+        },
+        attitude: {
+          type:Number,
+          default: 0
+        }
+    },
+    totalRatingAvg :{
         type: Number,
         default: 0
     },

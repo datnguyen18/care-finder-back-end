@@ -17,7 +17,8 @@ const ReviewSchema = new Schema({
         price: Number,
         quality: Number,
         attitude: Number
-    }
+    },
+    totalScore: Number
 })
 
 module.exports = ReviewSchema;

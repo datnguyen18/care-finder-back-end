@@ -6,4 +6,5 @@ const upload = require('../config/multer');
 
 router.get('/me', checkAuth, UserController.get_current_user);
 router.patch('/', checkAuth, upload.single('avatar'), UserController.update_user);
+router.get('/:idUser', UserController.get_user);
 module.exports = router;

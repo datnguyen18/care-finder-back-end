@@ -1,5 +1,13 @@
 const User = require('../models/user');
 
+exports.get_user = (req, res) => {
+  const userId = req.params.idUser;
+  
+  User.findById(userId).exec()
+    .then(doc => res.status(200).json({user:doc}))
+    .catch(err => res.status(400).json({err}))
+}
+
 exports.get_current_user = (req, res) => {
   const userId = req.userData.userId;
   User.findById(userId).exec()

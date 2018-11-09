@@ -21,6 +21,9 @@ const DoctorSchema = new Schema({
         type: String,
         required: true
     },
+    website:{
+        type: String
+    },
     date: {
         type: Date,
         default: Date.now

@@ -17,6 +17,14 @@ const LocationSchema = new Schema({
             type: String,
             required: true
         },
+        ward: {
+            type: String,
+            required: true
+        },
+        district: {
+            type: String,
+            require:true
+        },
         city: {
             type: String,
             required: true

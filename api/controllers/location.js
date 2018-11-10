@@ -12,12 +12,16 @@ exports.create_new_location = (req, res) => {
   console.log('====================================');
   console.log(urls);
   console.log('====================================');
-
+  let address = {};
+  address.street = req.body.street;
+  address.ward = req.body.ward;
+  address.district = req.body.district;
+  address.city = req.body.city;
   const location = new Location({
     _id: new mongoose.Types.ObjectId(),
     _idDoctor: req.body._idDoctor,
     name: req.body.name,
-    address: req.body.address,
+    address: address,
     department: req.body.department,
     phoneNumber: req.body.phoneNumber,
     imageUrls: urls
@@ -31,6 +35,7 @@ exports.create_new_location = (req, res) => {
       });
     })
     .catch(err => {
+      console.log(err)
       res.status(500).json({
         error: err
       });

@@ -10,8 +10,9 @@ const loginRoute = require('./api/route/login');
 const locationRoute = require('./api/route/location');
 const doctorRoute = require('./api/route/doctor');
 const userRoute = require('./api/route/user');
+const cityRoute = require('./api/route/city');
 const cors = require('cors');
-mongoose.connect('mongodb://localhost:27017/ClinicBM', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://care-finder:care-finder@cluster0-gkjob.mongodb.net/Care-Finder?retryWrites=true', {useNewUrlParser: true});
 app.use(morgan('dev'));
 app.use('/uploads', express.static('./uploads'));
 app.use(bodyParser.urlencoded({
@@ -23,6 +24,8 @@ app.use('/register', registerRoute);
 app.use('/login', loginRoute);
 app.use('/location', locationRoute);
 app.use('/doctor', doctorRoute);
+app.use('/city', cityRoute);
 app.use('/', userRoute);
 app.use('/user', userRoute);
+
 module.exports = app;

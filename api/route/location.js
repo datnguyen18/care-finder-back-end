@@ -15,7 +15,7 @@ router.get('/',LocationController.get_all_Location);
 //create new clinic
 router.post('/',upload.array('imageUrls', 8), LocationController.create_new_location);
 //follow a clinic by idLocation and need current userID in body
-router.post('/follow/:idLocation',checkAuth, LocationController.follow_location);
+router.post('/follow/:idLocation', LocationController.follow_location);
 
 router.post('/unfollow/:idLocation', LocationController.unfollow_Location);
 //update coordinates and address

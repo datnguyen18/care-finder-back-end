@@ -33,7 +33,9 @@ exports.create_new_location = (req, res) => {
     .then(result => {
       console.log(result);
       req.body.departments.forEach(e => {
-        Department.findOneAndUpdate({name: e}, {$push: {locations: location._id}})
+        Department.findOneAndUpdate({name: e}, {$push: {locations: location._id}}).then(doc => {
+          console.log("success")
+        })
       })
       res.status(200).json({
         message: 'Handling POST requests to /Location ',

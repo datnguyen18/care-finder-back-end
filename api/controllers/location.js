@@ -2,6 +2,7 @@ const Location = require('../models/location');
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const Review = require('../models/review');
+const Department = require('../models/department');
 
 exports.create_new_location = (req, res) => {
   let urls = [];
@@ -17,18 +18,23 @@ exports.create_new_location = (req, res) => {
   address.ward = req.body.ward;
   address.district = req.body.district;
   address.city = req.body.city;
+
   const location = new Location({
     _id: new mongoose.Types.ObjectId(),
     _idDoctor: req.body._idDoctor,
     name: req.body.name,
     address: address,
-    department: req.body.department,
+    departments: req.body.departments,
     phoneNumber: req.body.phoneNumber,
-    imageUrls: urls
+    imageUrls: urls,
+    website: req.body.website
   });
   location.save()
     .then(result => {
       console.log(result);
+      req.body.departments.forEach(e => {
+        Department.findOneAndUpdate({name: e}, {$push: {locations: location._id}})
+      })
       res.status(200).json({
         message: 'Handling POST requests to /Location ',
         createdLocation: location
@@ -124,7 +130,7 @@ exports.comment_on_Location = (req, res) => {
     doc.ratingAvg.price = calculateAvg(doc.ratingAvg.price, rating.price, length);
     doc.ratingAvg.quality = calculateAvg(doc.ratingAvg.quality, rating.quality, length);
     doc.ratingAvg.attitude = calculateAvg(doc.ratingAvg.attitude, rating.attitude, length);
-    doc.totalRatingAvg = (doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude)/4;
+    doc.totalRatingAvg = parseFloat((doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude)/4).toFixed(2);
     doc.save((error) => {
       res.status(200).json({doc})
     })

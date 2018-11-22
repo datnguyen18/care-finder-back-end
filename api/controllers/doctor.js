@@ -1,7 +1,7 @@
-const Doctor = require('../models/doctor');
+const User = require('../models/user');
 
 exports.get_all_doctors = (req,res) => {
-  Doctor.find()
+  User.find({isDoctor: true})
     .then(doc => {
       res.status(200).json({
         docs:doc
@@ -15,13 +15,13 @@ exports.get_all_doctors = (req,res) => {
 }
 
 exports.get_unauthenticated_doctors = (req, res) => {
-  Doctor.find({ 'isVerified': false })
-    .then(doc => res.status(200).json({docs:doc}))
+  User.find({ 'requireVerify': true })
+    .then(doc => res.status(200).json({doctors:doc}))
     .catch(err => res.status(200).json({err}))
 }
 
 exports.get_authenticated_doctors = (req, res) => {
-  Doctor.find({ 'isVerified': true })
+  User.find({ 'permission': 'DOCTOR' })
     .then(doc => res.status(200).json({docs:doc}))
     .catch(err => res.status(200).json({err}))
 }

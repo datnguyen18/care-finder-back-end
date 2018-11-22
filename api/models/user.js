@@ -40,10 +40,28 @@ const UserSchema = new Schema({
         type: Boolean,
         default: false
     },
-    follows: [Schema.Types.ObjectId],
+    follows: [{type: Schema.Types.ObjectId, ref: 'locations'}],
     avatar: {
         type: String,
         default: 'http://icons-for-free.com/free-icons/png/512/2694141.png'
+    },
+    permission: {
+      type: String,
+      default: 'USER'
+    },
+    imageOfIdentification:{
+      type:String,
+    },
+    imageOfDiploma: {
+      type:String,
+    },
+    isDoctor: {
+      type: Boolean,
+      default: false
+    },
+    requireVerify: {
+      type:Boolean,
+      default: false
     }
 });
 UserSchema.plugin(uniqueValidator)

@@ -43,3 +43,28 @@ exports.update_user = (req, res) => {
     })
     .catch(err => res.status(404).json({ err }))
 }
+
+exports.require_be_doctor = (req, res) => {
+  const idUser = req.params.idUser;
+  const imageOfIdentification = "http://localhost:3000/uploads/" + req.files.imageOfIdentification[0].filename;
+  const imageOfDiploma = "http://localhost:3000/uploads/" + req.files.imageOfDiploma[0].filename;
+
+  User.findByIdAndUpdate(idUser,{
+    $set: {
+      imageOfDiploma,
+      imageOfIdentification,
+      requireVerify: true
+    }
+  },{new: true}).exec()
+    .then(doc=> {
+      res.status(200).json({
+        doc
+      })
+    })
+    .catch(err => {
+      res.status(404).json({
+        err
+      })
+  })
+
+}

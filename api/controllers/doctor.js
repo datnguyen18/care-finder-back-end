@@ -1,17 +1,14 @@
 const User = require('../models/user');
 
-exports.get_all_doctors = (req,res) => {
-  User.find({isDoctor: true})
-    .then(doc => {
-      res.status(200).json({
-        docs:doc
-      })
-    })
-    .catch(err => {
-      res.status(400).json({
-        err
-      })
-    })
+exports.authourize_user = (req, res) => {
+  const id = req.params.idUser;
+
+  User.findByIdAndUpdate(id, { $set: {permission: 'DOCTOR'}}, {new: true}).exec()
+    .then(doctor => {
+      res.status(200).json({doctor})
+    }).catch(error => {
+      res.status(400).json({error})
+    }) 
 }
 
 exports.get_unauthenticated_doctors = (req, res) => {

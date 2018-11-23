@@ -16,23 +16,23 @@ exports.login = (req, res) => {
         .then(user => {
             bcrypt.compare(req.body.password, user.password, (err, result) => {
                 if(err) {
-                    return res.status(401).json({
-                       failed: 'Unauthorized Access'
-                    });
-                 }
-                 
-                 if(result) {
-                     const token = jwt.sign({
-                         email: user.email,
-                         userId: user._id
-                     },process.env.JWT_KEY,
-                    {
-                        expiresIn: "1h"
-                    })
-                    return res.status(200).json({
-                       success: 'Welcome to the JWT Auth',
-                       token
-                    });
+                  return res.status(401).json({
+                    failed: 'Unauthorized Access'
+                  });
+                }                 
+                if(result) {
+                  const token = jwt.sign({
+                    email: user.email,
+                    userId: user._id
+                  },process.env.JWT_KEY,
+                  {
+                      expiresIn: "10h"
+                  })
+                  return res.status(200).json({
+                    success: 'Welcome to the JWT Auth',
+                    token,
+                    permission: user.permission
+                  });
                  }
 
                  return res.status(401).json({
@@ -42,7 +42,7 @@ exports.login = (req, res) => {
         })
         .catch(err => {
             res.status(500).json({
-                error: err
+                error: 'Email not exist'
              });
         })
 

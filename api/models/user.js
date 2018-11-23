@@ -55,10 +55,6 @@ const UserSchema = new Schema({
     imageOfDiploma: {
       type:String,
     },
-    isDoctor: {
-      type: Boolean,
-      default: false
-    },
     requireVerify: {
       type:Boolean,
       default: false

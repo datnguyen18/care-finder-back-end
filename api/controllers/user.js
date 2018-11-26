@@ -46,14 +46,18 @@ exports.update_user = (req, res) => {
 
 exports.require_be_doctor = (req, res) => {
   const idUser = req.params.idUser;
-  const imageOfIdentification = "http://localhost:3000/uploads/" + req.files.imageOfIdentification[0].filename;
+  const imageOfIdentificationFront = "http://localhost:3000/uploads/" + req.files.imageOfIdentificationFront[0].filename;
+  const imageOfIdentificationBack = "http://localhost:3000/uploads/" + req.files.imageOfIdentificationBack[0].filename;
   const imageOfDiploma = "http://localhost:3000/uploads/" + req.files.imageOfDiploma[0].filename;
+  const departments = req.body.departments;
 
   User.findByIdAndUpdate(idUser,{
     $set: {
       imageOfDiploma,
-      imageOfIdentification,
-      requireVerify: true
+      imageOfIdentificationFront,
+      imageOfIdentificationBack,
+      requireVerify: true,
+      departments
     }
   },{new: true}).exec()
     .then(doc=> {

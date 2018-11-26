@@ -58,7 +58,10 @@ const UserSchema = new Schema({
     requireVerify: {
       type:Boolean,
       default: false
-    }
+    },
+    departments:[{
+      type: String
+    }]
 });
 UserSchema.plugin(uniqueValidator)
 const User = mongoose.model('users', UserSchema);

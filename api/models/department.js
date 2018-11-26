@@ -8,6 +8,9 @@ const DepartmentSchema = new Schema({
   },
   locations: [{
     type: Schema.Types.ObjectId, ref: 'locations'
+  }],
+  doctor: [{
+    type: Schema.Types.ObjectId, ref: 'users'
   }]
 });
 

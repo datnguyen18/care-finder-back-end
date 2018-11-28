@@ -19,6 +19,10 @@ exports.create_new_location = (req, res) => {
   address.district = req.body.district;
   address.city = req.body.city;
 
+  let coordinates = {};
+  coordinates.latitude = req.body.latitude;
+  coordinates.longitude = req.body.longitude;
+
   const location = new Location({
     _id: new mongoose.Types.ObjectId(),
     _idDoctor: req.body._idDoctor,
@@ -27,13 +31,14 @@ exports.create_new_location = (req, res) => {
     departments: req.body.departments,
     phoneNumber: req.body.phoneNumber,
     imageUrls: urls,
-    website: req.body.website
+    website: req.body.website,
+    coordinates: coordinates
   });
   location.save()
     .then(result => {
       console.log(result);
       req.body.departments.forEach(e => {
-        Department.findOneAndUpdate({name: e}, {$push: {locations: location._id}}).then(doc => {
+        Department.findOneAndUpdate({ name: e }, { $push: { locations: location._id } }).then(doc => {
           console.log("success")
         })
       })
@@ -63,7 +68,7 @@ exports.follow_location = (req, res) => {
         });
     }
 
-    Location.update({_id: idLocation}, {$inc: {numberOfFollows: 1}}, {'new': true}, (err, doc) => {
+    Location.update({ _id: idLocation }, { $inc: { numberOfFollows: 1 } }, { 'new': true }, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
@@ -92,7 +97,7 @@ exports.unfollow_Location = (req, res) => {
   const idLocation = req.params.idLocation;
   const idUser = req.body._idUser;
   User.findById(idUser, (err, result) => {
-    Location.update({_id: idLocation}, {$inc: {numberOfFollows: -1}}, {'new': true}, (err, doc) => {
+    Location.update({ _id: idLocation }, { $inc: { numberOfFollows: -1 } }, { 'new': true }, (err, doc) => {
       if (err) {
         return res.status(500).json({
           error: err
@@ -119,8 +124,8 @@ exports.unfollow_Location = (req, res) => {
 //need_to_done
 exports.comment_on_Location = (req, res) => {
   const idLocation = req.params.idLocation;
-  const {content, rating, _idUser} = req.body
-  Location.findByIdAndUpdate(idLocation, {$push: {reviews: req.body}}, {new: true}, (err, doc) => {
+  const { content, rating, _idUser } = req.body
+  Location.findByIdAndUpdate(idLocation, { $push: { reviews: req.body } }, { new: true }, (err, doc) => {
     if (err) {
       res.status(404).json({
         err
@@ -132,16 +137,16 @@ exports.comment_on_Location = (req, res) => {
     doc.ratingAvg.price = calculateAvg(doc.ratingAvg.price, rating.price, length);
     doc.ratingAvg.quality = calculateAvg(doc.ratingAvg.quality, rating.quality, length);
     doc.ratingAvg.attitude = calculateAvg(doc.ratingAvg.attitude, rating.attitude, length);
-    doc.totalRatingAvg = parseFloat((doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude)/4).toFixed(2);
+    doc.totalRatingAvg = parseFloat((doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude) / 4).toFixed(2);
     doc.save((error) => {
-      res.status(200).json({doc})
+      res.status(200).json({ doc })
     })
-    
+
   });
 };
 
 calculateAvg = (current, newVal, length) => {
-    return Math.round(((current*(length-1))+ newVal)/length*10)/10
+  return Math.round(((current * (length - 1)) + newVal) / length * 10) / 10
 }
 
 exports.modify_Location = (req, res) => {
@@ -174,8 +179,9 @@ exports.modify_Location = (req, res) => {
 exports.get_Location = (req, res) => {
   const idLocation = req.params.idLocation;
 
-  Location.findById(idLocation).exec()
+  Location.findByIdAndUpdate(idLocation, { $inc: { countView: 1 } }, { new: true }).exec()
     .then(doc => {
+      console.log(doc)
       res.status(200).json({
         doc: doc
       });
@@ -188,21 +194,23 @@ exports.get_Location = (req, res) => {
 };
 
 exports.get_all_Location = (req, res) => {
-  if(!req.query.last){
+  if (!req.query.last) {
     Location.find()
-    .then(doc => {
-      res.status(200).json({
-        doc: doc
-      });
-    })
-    .catch(err => res.status(400).json({
-      err
-    }));
-  }else{
+      .then(doc => {
+        res.status(200).json({
+          doc: doc
+        });
+      })
+      .catch(err => res.status(400).json({
+        err
+      }));
+  } else {
     var lastWeek = new Date();
     lastWeek.setDate(lastWeek.getDate() - parseInt(req.query.last));
-    Location.find({"date":
-      { $gte : lastWeek }}
+    Location.find({
+      "date":
+        { $gte: lastWeek }
+    }
     )
       .exec()
       .then(doc => {

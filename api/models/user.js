@@ -49,7 +49,10 @@ const UserSchema = new Schema({
       type: String,
       default: 'USER'
     },
-    imageOfIdentification:{
+    imageOfIdentificationBack:{
+      type:String,
+    },
+    imageOfIdentificationFront:{
       type:String,
     },
     imageOfDiploma: {

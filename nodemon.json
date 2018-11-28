@@ -1,6 +1,9 @@
 {
     "env" : {
         "JWT_KEY": "secret",
-        "API_KEY": "2GvfciCPRpThY68psLDAytcAza489UZh"
+        "API_KEY": "2GvfciCPRpThY68psLDAytcAza489UZh",
+        "CLOUD_NAME": "care-finder",
+        "API_KEY_CLOUDINARY": "849213914948928",
+        "API_SECRET": "jvU_BUxUstN8leI2DPo1eavOu34"
     }
 }

@@ -33,6 +33,8 @@ exports.create_new_location = (req, res) => {
     imageUrls: urls,
     website: req.body.website,
     coordinates: coordinates
+    website: req.body.website,
+    timeOpen: req.body.timeOpen
   });
   location.save()
     .then(result => {

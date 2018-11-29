@@ -100,6 +100,10 @@ const LocationSchema = new Schema({
   date: {
     type: Date,
     default: new Date()
+  },
+  countView: {
+    type: Number,
+    default: 0
   }
 });
 

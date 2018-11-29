@@ -7,13 +7,15 @@ const Department = require('../models/department');
 exports.create_new_location = (req, res) => {
   let urls = [];
   req.files.forEach(element => {
-    urls.push('http://localhost:3000/' + element.path);
+    urls.push(element.url)
   });
 
   console.log('====================================');
   console.log(urls);
   console.log('====================================');
-  let address = {};
+  console.log(req.body.timeOpen);
+  console.log('====================================');
+
   address.street = req.body.street;
   address.ward = req.body.ward;
   address.district = req.body.district;
@@ -33,7 +35,7 @@ exports.create_new_location = (req, res) => {
     imageUrls: urls,
     website: req.body.website,
     coordinates: coordinates,
-    timeOpen: req.body.timeOpen
+    timeOpen: JSON.parse(req.body.timeOpen)
   });
   location.save()
     .then(result => {

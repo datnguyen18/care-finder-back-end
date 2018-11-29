@@ -77,12 +77,9 @@ const LocationSchema = new Schema({
       default: 0
     }
   },
-  timeOpen: [
-    [{
-      time: String,
-      close: String
-    }]
-  ],
+  timeOpen: {
+    type: Array
+  },
   reviews: {
     type: [ReviewSchema]
   },

@@ -12,7 +12,7 @@ exports.authourize_user = (req, res) => {
 }
 
 exports.get_unauthenticated_doctors = (req, res) => {
-  User.find({ 'requireVerify': true })
+  User.find({ 'requireVerify': true, 'permission': 'USER' })
     .then(doc => res.status(200).json({doctors:doc}))
     .catch(err => res.status(200).json({err}))
 }

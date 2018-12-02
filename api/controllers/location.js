@@ -15,7 +15,7 @@ exports.create_new_location = (req, res) => {
   console.log('====================================');
   console.log(req.body.timeOpen);
   console.log('====================================');
-
+  const address = {};
   address.street = req.body.street;
   address.ward = req.body.ward;
   address.district = req.body.district;
@@ -40,11 +40,19 @@ exports.create_new_location = (req, res) => {
   location.save()
     .then(result => {
       console.log(result);
-      req.body.departments.forEach(e => {
-        Department.findOneAndUpdate({ name: e }, { $push: { locations: location._id } }).then(doc => {
+      if(typeof req.body.departments === "string"){
+        Department.findOneAndUpdate({ name: req.body.departments }, { $push: { locations: location._id } }).then(doc => {
           console.log("success")
         })
-      })
+      }else {
+        req.body.departments.forEach(e => {
+          Department.findOneAndUpdate({ name: e }, { $push: { locations: location._id } }).then(doc => {
+            console.log("success")
+          })
+        })
+      }
+
+     
       res.status(200).json({
         message: 'Handling POST requests to /Location ',
         createdLocation: location

@@ -33,7 +33,7 @@ exports.update_user = (req, res) => {
   console.log(req.body)
   User.findByIdAndUpdate(userId, {
     $set: {
-      avatar: 'http://localhost:3000/uploads/' + req.file.filename
+      avatar:  req.file.url
     }
   }, { new: true })
     .exec()

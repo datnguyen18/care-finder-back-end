@@ -29,7 +29,8 @@ app.use('/location', locationRoute);
 app.use('/doctor', doctorRoute);
 app.use('/city', cityRoute);
 app.use('/department', departmentRoute)
-app.use('/', userRoute);
 app.use('/user', userRoute);
+app.use('/', userRoute);
+
 
 module.exports = app;

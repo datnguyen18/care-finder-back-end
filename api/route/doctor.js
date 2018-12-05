@@ -24,5 +24,5 @@ router.patch('/verify/:idDoctor',(req,res) => {
       });
 })
 
-router.patch('/authorization', doctorController.authourize_user);
+router.patch('/authorization/:idUser', doctorController.authourize_user);
 module.exports = router;

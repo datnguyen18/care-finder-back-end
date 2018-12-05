@@ -15,6 +15,7 @@ exports.create_new_location = (req, res) => {
   console.log('====================================');
   console.log(req.body.timeOpen);
   console.log('====================================');
+
   const address = {};
   address.street = req.body.street;
   address.ward = req.body.ward;

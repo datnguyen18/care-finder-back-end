@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
-const Department = require('../models/department');
+const DepartmentController = require('../controllers/department')
 
-router.get('/', (req, res) => {
-  Department.find().populate('locations').then(doc => {
-    res.status(200).json({doc})
-  }).catch(err => {
-    res.status(400).json({err})
-  });
-})
+router.get('/', DepartmentController.get_all_departments)
+router.post('/', DepartmentController.add_department)
 module.exports = router;

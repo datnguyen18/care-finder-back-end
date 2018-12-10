@@ -11,4 +11,5 @@ router.patch('/:idUser', checkAuth, UserController.update_information_user);
 router.get('/:idUser', UserController.get_user);
 router.get('/', UserController.get_users);
 router.patch('/password/:idUser', checkAuth, UserController.change_password)
+router.patch('/permission/:idUser', UserController.change_permission)
 module.exports = router;

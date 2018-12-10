@@ -131,3 +131,12 @@ exports.change_password = async (req, res) => {
       })
     })
 }
+
+exports.change_permission = (req, res) => {
+  User.findByIdAndUpdate(req.params.idUser, {$set : { permission: req.body.permission, requireVerify: false }},{new: true}).exec()
+    .then(doc => {
+      res.status(200).json({doc})
+    }).catch(err => {
+      res.status(400).json({err})
+    })
+}

@@ -1,6 +1,14 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
 
+exports.get_users = (req, res) => {
+  const userId = req.params.idUser;
+  
+  User.find().exec()
+    .then(doc => res.status(200).json({users:doc}))
+    .catch(err => res.status(400).json({err}))
+}
+
 exports.get_user = (req, res) => {
   const userId = req.params.idUser;
   

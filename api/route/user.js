@@ -9,5 +9,6 @@ router.patch('/verify/:idUser', checkAuth, upload.fields([{ name: 'imageOfIdenti
 router.patch('/', checkAuth, upload.single('avatar'), UserController.update_user);
 router.patch('/:idUser', checkAuth, UserController.update_information_user);
 router.get('/:idUser', UserController.get_user);
+router.get('/', UserController.get_users);
 router.patch('/password/:idUser', checkAuth, UserController.change_password)
 module.exports = router;

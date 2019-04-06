@@ -64,6 +64,9 @@ const UserSchema = new Schema({
     },
     departments:[{
       type: String
+    }],
+    conversations:[{
+      type: Schema.Types.ObjectId
     }]
 });
 UserSchema.plugin(uniqueValidator)

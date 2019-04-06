@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validateLoginInput = require('../validation/login');
 const bcrypt = require('bcrypt');
 const jwt =require('jsonwebtoken');
-
+const socket = require('../../server');
 const User = require('../models/user');
 
 exports.login = (req, res) => {
@@ -28,6 +28,7 @@ exports.login = (req, res) => {
                   {
                       expiresIn: "10h"
                   })
+
                   return res.status(200).json({
                     success: 'Welcome to the JWT Auth',
                     token,

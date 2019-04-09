@@ -5,12 +5,8 @@ const ConversationSchema = new Schema({
   messages: [{
     type: Schema.Types.ObjectId, ref: 'messages'
   }],
-  userId: {
-    type: Schema.Types.ObjectId
-  },
-  doctorId: {
-    type: Schema.Types.ObjectId
-  }
+  userOneId: String,
+  userTwoId: String,
 })
 const Conversation = mongoose.model('conversation', ConversationSchema)
 module.exports = Conversation

@@ -1,20 +1,20 @@
 const Conversation = require('../models/conversation');
 const User = require('../models/user');
-exports.create_conversation= (req, res) => {
-  User.findOne({ email: req.body.currentEmaillUser})
+exports.create_conversation = (req, res) => {
+  User.findOne({ email: req.body.currentEmaillUser })
     .populate('conversations')
     .then(user => {
-      if(user) {
-        const isConversationExist = user.conversations.filter(conversation =>(
+      if (user) {
+        const isConversationExist = user.conversations.filter(conversation => (
           conversation.userOneId === req.body.personId ||
-          conversation.userTwoId ===req.body.personId
-        ),).length >0
-        
-        if(isConversationExist) {
-          res.status(400).json({result: "You already have conversation with this user'"})
-        }else {
+          conversation.userTwoId === req.body.personId
+        )).length > 0
+
+        if (isConversationExist) {
+          res.status(400).json({ result: "You already have conversation with this user'" })
+        } else {
           User.findById(req.body.personId)
-            .then(person =>{
+            .then(person => {
               const newConversation = new Conversation({
                 userOneId: user._id,
                 userTwoId: person._id
@@ -24,29 +24,47 @@ exports.create_conversation= (req, res) => {
                 user.save();
                 person.conversations.push(conversation);
                 person.save();
-                res.status(200).json({id: conversation._id, personId :person._id})
+                res.status(200).json({ id: conversation._id, personId: person._id })
               })
             })
         }
-      }else {
-        res.status(404).json({result: "User not found"})
+      } else {
+        res.status(404).json({ result: "User not found" })
       }
     })
 }
 
 exports.load_conversations = (req, res) => {
-  // Tai lam tiep nha
+  User.findOne({ email: req.body.currentEmaillUser })
+    .populate('conversations')
+    .then(user => {
+      if (user) {
+        const allConversations = [];
+        user.conversations.find(conversation => {
+          const subConversation = {id: conversation._id, personId: ""};
+          if (conversation.userOneId === user._id){
+            subConversation.personId = conversation.userTwoId;
+          }else{
+            subConversation.personId = conversation.userOneId;
+          }
+          allConversations.push(subConversation);
+        })
+        res.status(200).json(allConversations)
+      } else {
+        res.status(404).json({ result: "User not found" })
+      }
+    })
 }
 
 exports.does_the_conversation_exist = (req, res) => {
-    const userId = req.params.idUser;
-    const doctorId = req.params.idDoctor;
+  const userId = req.params.idUser;
+  const doctorId = req.params.idDoctor;
 
-    Conversation.find({ userId: userId, doctorId: doctorId })
-        .then(con => {
-            res.status(200).json({ result: true })
-        })
-        .catch(err => {
-            res.status(400).json({ result: false })
-        })
+  Conversation.find({ userId: userId, doctorId: doctorId })
+    .then(con => {
+      res.status(200).json({ result: true })
+    })
+    .catch(err => {
+      res.status(400).json({ result: false })
+    })
 }

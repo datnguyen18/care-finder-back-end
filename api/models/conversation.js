@@ -8,5 +8,5 @@ const ConversationSchema = new Schema({
   userOneId: String,
   userTwoId: String,
 })
-const Conversation = mongoose.model('conversation', ConversationSchema)
+const Conversation = mongoose.model('conversations', ConversationSchema)
 module.exports = Conversation

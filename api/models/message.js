@@ -7,7 +7,7 @@ const MessageSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  userId: Object,
+  userId: Schema.Types.ObjectId,
 })
 
 module.exports = mongoose.model('messages', MessageSchema)

@@ -3,7 +3,7 @@ const app = require('./app')
 const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 const io  = module.exports.io = require('socket.io')(server);
-
+const MessageController = require('./api/controllers/message');
 server.listen(port, () => {
     console.log(`🚀 Started on port ${port}`);
    
@@ -20,7 +20,7 @@ io.on('connect',  socket => {
     if (sockets[message.receiverId]) {
       sockets[message.receiverId].emit('message', message);
     }
-    handlers.createMessage(message);
+    MessageController.create_message(message);
   });
   socket.on('disconnect', (userId) => {
     delete sockets[userId.senderId];

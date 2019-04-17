@@ -13,6 +13,7 @@ const userRoute = require('./api/route/user');
 const cityRoute = require('./api/route/city');
 const departmentRoute = require('./api/route/department');
 const conversationRoute = require('./api/route/conversation');
+const messageRoute = require('./api/route/message');
 const cors = require('cors');
 
 mongoose.connect('mongodb+srv://care-finder:care-finder@cluster0-gkjob.mongodb.net/Care-Finder?retryWrites=true', {useNewUrlParser: true});
@@ -33,6 +34,6 @@ app.use('/department', departmentRoute)
 app.use('/user', userRoute);
 app.use('/', userRoute);
 app.use('/conversation', conversationRoute);
-
+app.use('/message', messageRoute);
 
 module.exports = app;

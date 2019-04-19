@@ -7,6 +7,9 @@ const ReservationSchema = new Schema({
   status: {
     type: Text,
     enum: ['waiting', 'checking', 'done']
+  },
+  idPatient: {
+    type: Schema.Types.ObjectId
   }
 })
 

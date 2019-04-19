@@ -97,7 +97,11 @@ const LocationSchema = new Schema({
   countView: {
     type: Number,
     default: 0
-  }
+  },
+  reservationList: [{
+    type: Schema.Types.ObjectId,
+    ref: 'reservations'
+  }]
 });
 
 const Location = mongoose.model('locations', LocationSchema);

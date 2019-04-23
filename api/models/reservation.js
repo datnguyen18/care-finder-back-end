@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
+
 const Schema = mongoose.Schema;
 
 const ReservationSchema = new Schema({
   idLocation: Schema.Types.ObjectId,
-  numberInQueue: Number,
-  status: {
-    type: Text,
-    enum: ['waiting', 'checking', 'done']
-  },
+  qrCode: Number,
   idPatient: {
     type: Schema.Types.ObjectId
-  }
+  },
+  time: Number
 })
 
 module.exports = mongoose.model('reservations', ReservationSchema)

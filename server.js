@@ -16,14 +16,15 @@ io.on('connect',  socket => {
     sockets[userId.senderId] = socket;
   });
 
-  socket.on('message', (message) => {
-    if (sockets[message.receiverId]) {
-      sockets[message.receiverId].emit('message', message);
-    }
-    MessageController.create_message(message);
-  });
-  socket.on('disconnect', (userId) => {
-    delete sockets[userId.senderId];
-  });
+  // socket.on('message', (message) => {
+  //   if (sockets[message.receiverId]) {
+  //     sockets[message.receiverId].emit('message', message);
+  //   }
+  //   MessageController.create_message(message);
+  // });
+  // socket.on('disconnect', (userId) => {
+  //   delete sockets[userId.senderId];
+  // });
+
 });
 

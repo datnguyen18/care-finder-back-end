@@ -9,7 +9,7 @@ const ReservationSchema = new Schema({
   idPatient: {
     type: Schema.Types.ObjectId
   },
-  time: Number
+  time: String
 })
 
 module.exports = mongoose.model('reservations', ReservationSchema)

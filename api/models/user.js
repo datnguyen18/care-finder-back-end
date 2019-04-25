@@ -58,6 +58,9 @@ const UserSchema = new Schema({
     imageOfDiploma: {
       type:String,
     },
+    imageOfReservation:{
+      type:String,
+    },
     requireVerify: {
       type:Boolean,
       default: false

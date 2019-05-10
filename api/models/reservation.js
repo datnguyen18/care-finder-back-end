@@ -9,6 +9,7 @@ const ReservationSchema = new Schema({
   idPatient: {
     type: Schema.Types.ObjectId
   },
+  date: String,
   time: String
 })
 

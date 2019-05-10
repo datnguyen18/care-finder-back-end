@@ -23,4 +23,6 @@ router.patch('/modify/:idLocation', LocationController.modify_Location);
 //comment on clinic
 router.patch('/comment/:idLocation', LocationController.comment_on_Location);
 
+router.post('/getBookingTime', LocationController.get_bookingTime);
+
 module.exports = router;

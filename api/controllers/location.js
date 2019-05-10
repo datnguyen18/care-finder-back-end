@@ -41,11 +41,11 @@ exports.create_new_location = (req, res) => {
   location.save()
     .then(result => {
       console.log(result);
-      if(typeof req.body.departments === "string"){
+      if (typeof req.body.departments === "string") {
         Department.findOneAndUpdate({ name: req.body.departments }, { $push: { locations: location._id } }).then(doc => {
           console.log("success")
         })
-      }else {
+      } else {
         req.body.departments.forEach(e => {
           Department.findOneAndUpdate({ name: e }, { $push: { locations: location._id } }).then(doc => {
             console.log("success")
@@ -53,7 +53,7 @@ exports.create_new_location = (req, res) => {
         })
       }
 
-     
+
       res.status(200).json({
         message: 'Handling POST requests to /Location ',
         createdLocation: location
@@ -237,3 +237,60 @@ exports.get_all_Location = (req, res) => {
       })
   }
 };
+
+function pad(n){
+	return n < 10 ? '0' + n : n;
+}
+
+exports.get_bookingTime = (req, res) => {
+  const idLocation = req.body.idLocation;
+  const dateBooking = req.body.dateBooking;
+  Location.findById(idLocation).then(location => {
+    var date = new Date(dateBooking);
+    var dayOfWeek = date.getDay();
+    var isCloseAllDay = location.timeOpen[dayOfWeek][0].isCloseAllDay;
+    if (isCloseAllDay) {
+      return res.status(200).json({ "status": "Closed Today" });
+    }
+    if (location.timeBooking == null || location.timeBooking.filter((time) => {
+      return time.date == dateBooking;
+    }).length == 0) {
+      var from = location.timeOpen[dayOfWeek][0].from;
+      var start = parseInt(from);
+      var to = location.timeOpen[dayOfWeek][0].to;
+      var end = parseInt(to);
+      var timeBooking = [];
+      for (var i = start; i < end; i++) {
+        if (i == 11) {
+          continue;
+        }
+        for (var j = 0; j <= 45; j += 15) {
+          var time = {};
+          var timeFormat = pad(i) + ":" + pad(j);
+          time.time = timeFormat;
+          time.userId = "";
+          timeBooking.push(time);
+        }
+      }
+      var obj = {};
+      obj.date = dateBooking;
+      obj.time = timeBooking;
+      Location.findByIdAndUpdate(idLocation, { $push: { timeBooking: obj } }, { new: true }).exec()
+        .then(doc => {
+          res.status(200).json({
+            timeBooking: timeBooking
+          });
+        })
+        .catch(err => {
+          res.status(404).json({
+            err: err
+          });
+        });
+    } else {
+      var obj = location.timeBooking.filter((time) => {
+        return time.date == dateBooking;
+      })
+      res.status(200).json({ "timeBooking": obj[0] });
+    }
+  })
+}

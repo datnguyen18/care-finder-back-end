@@ -101,7 +101,10 @@ const LocationSchema = new Schema({
   reservationList: [{
     type: Schema.Types.ObjectId,
     ref: 'reservations'
-  }]
+  }],
+  timeBooking: {
+    type: Array
+  }
 });
 
 const Location = mongoose.model('locations', LocationSchema);

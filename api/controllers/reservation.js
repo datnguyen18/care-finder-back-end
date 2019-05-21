@@ -33,6 +33,16 @@ exports.book_reservation = (req, res) => {
     })
 }
 
+exports.get_reservarion = (req, res) => {
+  User.findById(req.params.idPatient).exec()
+    .then(result => {
+      res.status(200).json({imageOfReservation: result.imageOfReservation})
+    })
+    .catch(err => {
+      res.status(400).json({err})
+    })
+}
+
 //list all user in a reservation of a location
 exports.show_all_users = (req, res) => {
 

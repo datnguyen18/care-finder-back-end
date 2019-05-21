@@ -278,7 +278,7 @@ exports.get_bookingTime = (req, res) => {
       Location.findByIdAndUpdate(idLocation, { $push: { timeBooking: obj } }, { new: true }).exec()
         .then(doc => {
           res.status(200).json({
-            timeBooking: timeBooking
+            timeBooking: obj
           });
         })
         .catch(err => {

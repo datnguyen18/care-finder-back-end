@@ -14,7 +14,8 @@ exports.book_reservation = (req, res) => {
       Location.findById(idLocation).exec().then(location => {
         qrCode += location.name;
         User.findById(idPatient).exec().then(user => {
-          if(user.imageOfReservation != ""){
+          console.log(user.imageOfReservation);
+          if(user.imageOfReservation != "" && user.imageOfReservation != undefined){
             return res.status(200).json({"status": "You have booked an appointment already!"});
           }
           qrCode += " - " + user.email + " - " + date + " " + time;

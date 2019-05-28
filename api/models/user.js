@@ -71,7 +71,10 @@ const UserSchema = new Schema({
     conversations:[{
       type: Schema.Types.ObjectId,
       ref: 'conversations'
-    }]
+    }],
+    ticketInfo:{
+      type: Object
+    }
 });
 UserSchema.plugin(uniqueValidator)
 const User = mongoose.model('users', UserSchema);

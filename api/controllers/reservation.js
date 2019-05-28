@@ -20,7 +20,11 @@ exports.book_reservation = (req, res) => {
           }
           qrCode += " - " + user.email + " - " + date + " " + time;
           QRCode.toDataURL(qrCode, (err, url) => {
-            User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: url } }, { new: true }).exec().then(user => {
+            ticketInfo = {};
+            ticketInfo.location = location._id;
+            ticketInfo.time = time;
+            ticketInfo.date = date;
+            User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: url, ticketInfo:  ticketInfo} }, { new: true }).exec().then(user => {
               Location.updateOne({ '_id': idLocation, 'timeBooking.date': date }, { $set: { "timeBooking.$.time.$[element].userId": user._id } }, {
                 multi: true,
                 arrayFilters: [{ "element.time": time }]
@@ -50,7 +54,7 @@ exports.get_reservation = (req, res) => {
 exports.cancel_reservation = (req, res) => {
   const { idPatient, idLocation, date, time } = req.body
   Location.findById(idLocation).exec().then(location => {
-    User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: "" } }, { new: true }).exec().then(user => {
+    User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: "", ticketInfo: {} } }, { new: true }).exec().then(user => {
       Location.updateOne({ '_id': idLocation, 'timeBooking.date': date }, { $set: { "timeBooking.$.time.$[element].userId": "" } }, {
         multi: true,
         arrayFilters: [{ "element.time": time }]

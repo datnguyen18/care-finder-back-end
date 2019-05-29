@@ -12,5 +12,10 @@ router.get('/:idUser', UserController.get_user);
 router.get('/', UserController.get_users);
 router.patch('/password/:idUser', checkAuth, UserController.change_password)
 router.patch('/permission/:idUser', UserController.change_permission)
+//route này đổi mk nè Tuấn /user/password
 router.post('/password', UserController.forgot_password);
+//cái này verify code số dt
+router.post('/verify', UserController.verify_user);
+//cái này tạo mk mới nè
+router.patch('/password', UserController.change_new_password);
 module.exports = router;

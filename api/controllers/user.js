@@ -137,6 +137,18 @@ exports.verify_user = (req,res) => {
     res.status(200).json({userId})
   });
 }
+exports.change_new_password = (req, res) => {
+  const{idUser, password} =req.body;
+  bcrypt.hash(password,10,(err, hash) => {
+    User.findByIdAndUpdate(idUser,{ $set: {password: hash}}, {new: true}).exec()
+      .then(user => {
+        if(!user){
+          res.status(400).json({err: "user doesn't exist"})
+        }
+        res.status(200).json({res: user})
+      })
+  })
+}
 
 exports.change_password = async (req, res) => {
   const {oldPassword, newPassword} = req.body;

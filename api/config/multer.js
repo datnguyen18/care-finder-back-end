@@ -1,21 +1,21 @@
 const multer = require('multer');
-const cloudinary = require("cloudinary");
-const cloudinaryStorage = require("multer-storage-cloudinary");
 
-cloudinary.config({
-  cloud_name: process.env.CLOUD_NAME,
-  api_key: process.env.API_KEY_CLOUDINARY,
-  api_secret: process.env.API_SECRET
+const gcsSharp = require('multer-sharp');
+
+const storage2 = gcsSharp({
+  bucket: 'care-finder', // Required : bucket name to upload
+  projectId: 'thinking-prism-229914', // Required : Google project ID
+  keyFilename: './api/config/keyFilename.json', // Optional : JSON credentials file for Google Cloud Storage
+  acl: 'publicRead', // Optional : acl credentials file for Google Cloud Storage, 'publicrRead' or 'private', default: 'private'
+  size: {
+    width: 400,
+    height: 400
+  },
+  destination: 'public/image',
+  max: true
 });
 
-const storage = cloudinaryStorage({
-  cloudinary: cloudinary,
-  folder: "demo",
-  allowedFormats: ["jpg", "png"],
-  transformation: [{ width: 500, height: 500, crop: "limit" }],
-});
 
-
-const upload = multer({ storage: storage })
+const upload = multer({ storage: storage2 })
 
 module.exports = upload;

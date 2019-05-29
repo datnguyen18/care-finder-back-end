@@ -43,10 +43,10 @@ exports.get_current_user = (req, res) => {
 
 exports.update_user = (req, res) => {
   const userId = req.userData.userId;
-  console.log(req.body)
+  console.log("haha", req.file)
   User.findByIdAndUpdate(userId, {
     $set: {
-      avatar:  req.file.url
+      avatar:  req.file.path
     }
   }, { new: true })
     .exec()

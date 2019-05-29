@@ -12,4 +12,5 @@ router.get('/:idUser', UserController.get_user);
 router.get('/', UserController.get_users);
 router.patch('/password/:idUser', checkAuth, UserController.change_password)
 router.patch('/permission/:idUser', UserController.change_permission)
+router.post('/password', UserController.forgot_password);
 module.exports = router;

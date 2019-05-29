@@ -1,5 +1,8 @@
 const User = require('../models/user');
 const bcrypt = require('bcrypt');
+const Client = require('authy-client').Client;
+const authy = new Client({ key: process.env.API_KEY })
+const enums = require('authy-client').enums;
 
 exports.get_users = (req, res) => {
   const userId = req.params.idUser;
@@ -96,6 +99,43 @@ exports.update_information_user = (req, res) => {
         err
       })
     })
+}
+
+exports.forgot_password = (req, res) => {
+  const { email, phoneNumber } = req.body
+  User.findOne({ email, phoneNumber }).exec()
+    .then(user => {
+      if(!user) {
+        res.status(400).json({error: "Email hoặc số điện thoại không đúng"})
+      }
+      authy.startPhoneVerification({
+        countryCode: 'VN',
+        locale: 'en',
+        phone: req.body.phoneNumber,
+        via: enums.verificationVia.SMS
+      }, (error, response) => {
+        if (error) {
+          return console.log(error)
+        };
+      });
+      res.status(200).json({userId: user._id, phoneNumber: user.phoneNumber})
+    })
+}
+
+exports.verify_user = (req,res) => {
+  const {phoneNumber, userId} = req.body
+  authy.verifyPhone({
+    countryCode: 'VN',
+    phone: phoneNumber,
+    token: code
+  }, (error, response) => {
+    if (error) {
+      return res.status(404).send({
+        "error": "code was wrong"
+      });
+    }
+    res.status(200).json({userId})
+  });
 }
 
 exports.change_password = async (req, res) => {

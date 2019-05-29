@@ -63,6 +63,7 @@ exports.verify_phone_number = (req, res) => {
   const code = req.body.code;
   const phoneNumber = req.body.phoneNumber;
   const id = req.body.userId;
+  console.log("ngon")
   authy.verifyPhone({
     countryCode: 'VN',
     phone: phoneNumber,

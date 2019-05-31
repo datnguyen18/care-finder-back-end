@@ -106,7 +106,7 @@ exports.forgot_password = (req, res) => {
   User.findOne({ email, phoneNumber }).exec()
     .then(user => {
       if(!user) {
-        res.status(400).json({error: "Email hoặc số điện thoại không đúng"})
+      return  res.status(400).json({error: "Email hoặc số điện thoại không đúng"})
       }
       authy.startPhoneVerification({
         countryCode: 'VN',
@@ -123,7 +123,7 @@ exports.forgot_password = (req, res) => {
 }
 
 exports.verify_user = (req,res) => {
-  const {phoneNumber, userId} = req.body
+  const {phoneNumber, userId, code} = req.body
   authy.verifyPhone({
     countryCode: 'VN',
     phone: phoneNumber,

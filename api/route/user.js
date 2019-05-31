@@ -17,5 +17,5 @@ router.post('/password', UserController.forgot_password);
 //cái này verify code số dt
 router.post('/verify', UserController.verify_user);
 //cái này tạo mk mới nè
-router.patch('/password', UserController.change_new_password);
+router.put('/forgotPassword', UserController.change_new_password);
 module.exports = router;

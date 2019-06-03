@@ -2,3 +2,4 @@
 /.vscode
 .DS_Store
 uploads
+/api/config/keyFilename.json

@@ -61,11 +61,11 @@ exports.update_user = (req, res) => {
 exports.require_be_doctor = (req, res) => {
   console.log(req.files)
   const idUser = req.params.idUser;
-  const imageOfIdentificationFront =  req.files.imageOfIdentificationFront[0].url;
-  const imageOfIdentificationBack =  req.files.imageOfIdentificationBack[0].url;
-  const imageOfDiploma =  req.files.imageOfDiploma[0].url;
+  const imageOfIdentificationFront =  req.files.imageOfIdentificationFront[0].path;
+  const imageOfIdentificationBack =  req.files.imageOfIdentificationBack[0].path;
+  const imageOfDiploma =  req.files.imageOfDiploma[0].path;
   const departments = req.body.departments;
-  // console.log(req.files.imageOfIdentificationFront.url)
+  console.log(req.files.imageOfIdentificationFront.url)
   User.findByIdAndUpdate(idUser,{
     $set: {
       imageOfDiploma,

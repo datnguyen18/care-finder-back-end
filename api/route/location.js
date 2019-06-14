@@ -21,8 +21,8 @@ router.post('/unfollow/:idLocation', LocationController.unfollow_Location);
 //update coordinates and address
 router.patch('/modify/:idLocation', LocationController.modify_Location);
 //comment on clinic
-router.patch('/comment/:idLocation', LocationController.comment_on_Location);
-
+router.post('/comment/:idLocation', LocationController.comment_on_Location);
+router.patch('/comment/:idLocation', LocationController.edit_comment);
 router.post('/getBookingTime', LocationController.get_bookingTime);
 
 module.exports = router;

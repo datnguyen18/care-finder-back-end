@@ -157,6 +157,44 @@ exports.comment_on_Location = (req, res) => {
   });
 };
 
+exports.edit_comment = (req, res) => {
+  const idLocation = req.params.idLocation;
+  const {idUser, rating, content} = req.body
+  Location.findById(idLocation, (err, doc) => {
+    if(err) {
+      res.status(404).json({
+        err
+      })
+    }
+    var location=0
+    var price = 0
+    var quality = 0
+    var attitude = 0
+    var length = doc.reviews.length
+    for(var i = 0; i<length; i++){
+      if(doc.reviews[i]._idUser == idUser){
+        doc.reviews[i].rating = rating
+        doc.reviews[i].content = content
+      }    
+
+      location+= doc.reviews[i].rating.location
+      price+= doc.reviews[i].rating.price
+      quality+= doc.reviews[i].rating.quality
+      attitude+= doc.reviews[i].rating.attitude
+    }
+
+    doc.ratingAvg.location = location/length
+    doc.ratingAvg.price = price/length
+    doc.ratingAvg.quality = quality/length
+    doc.ratingAvg.attitude = attitude/length
+    doc.totalRatingAvg = parseFloat((doc.ratingAvg.location + doc.ratingAvg.price + doc.ratingAvg.quality + doc.ratingAvg.attitude) / 4).toFixed(2);
+    doc.save()
+    res.status(200).json({
+      doc
+    })
+  })
+}
+
 calculateAvg = (current, newVal, length) => {
   return Math.round(((current * (length - 1)) + newVal) / length * 10) / 10
 }

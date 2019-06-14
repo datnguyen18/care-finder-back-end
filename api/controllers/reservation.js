@@ -14,17 +14,22 @@ exports.book_reservation = (req, res) => {
       Location.findById(idLocation).exec().then(location => {
         qrCode += location.name;
         User.findById(idPatient).exec().then(user => {
-          console.log(user.imageOfReservation);
-          if(user.imageOfReservation != "" && user.imageOfReservation != undefined){
-            return res.status(200).json({"status": "You have booked an appointment already!"});
+          if(user.ticketInfo.filter((ticket) => ticket.locationId == idLocation).length > 0){
+            return res.status(200).json({"status": "You have booked an appointment on this clinic already!"});
           }
+          // console.log(user.imageOfReservation);
+          // if(user.imageOfReservation != "" && user.imageOfReservation != undefined){
+          //   return res.status(200).json({"status": "You have booked an appointment already!"});
+          // }
           qrCode += " - " + user.email + " - " + date + " " + time;
           QRCode.toDataURL(qrCode, (err, url) => {
             ticketInfo = {};
-            ticketInfo.location = location._id;
+            ticketInfo.locationId = location._id;
+            ticketInfo.locationName = location.name;
             ticketInfo.time = time;
             ticketInfo.date = date;
-            User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: url, ticketInfo:  ticketInfo} }, { new: true }).exec().then(user => {
+            ticketInfo.imageOfReservation = url;
+            User.findByIdAndUpdate(idPatient, { $push: { ticketInfo:  ticketInfo} }, { new: true }).exec().then(user => {
               Location.updateOne({ '_id': idLocation, 'timeBooking.date': date }, { $set: { "timeBooking.$.time.$[element].userId": user._id } }, {
                 multi: true,
                 arrayFilters: [{ "element.time": time }]
@@ -54,7 +59,7 @@ exports.get_reservation = (req, res) => {
 exports.cancel_reservation = (req, res) => {
   const { idPatient, idLocation, date, time } = req.body
   Location.findById(idLocation).exec().then(location => {
-    User.findByIdAndUpdate(idPatient, { $set: { imageOfReservation: "", ticketInfo: {} } }, { new: true }).exec().then(user => {
+    User.findByIdAndUpdate(idPatient, { $pull: { ticketInfo: {locationName: location.name, date: date, time: time} } }, { multi: true }).exec().then(user => {
       Location.updateOne({ '_id': idLocation, 'timeBooking.date': date }, { $set: { "timeBooking.$.time.$[element].userId": "" } }, {
         multi: true,
         arrayFilters: [{ "element.time": time }]

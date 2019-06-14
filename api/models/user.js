@@ -73,7 +73,7 @@ const UserSchema = new Schema({
       ref: 'conversations'
     }],
     ticketInfo:{
-      type: Object
+      type: Array
     }
 });
 UserSchema.plugin(uniqueValidator)

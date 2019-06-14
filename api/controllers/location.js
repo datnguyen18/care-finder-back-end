@@ -7,11 +7,11 @@ const Department = require('../models/department');
 exports.create_new_location = (req, res) => {
   let urls = [];
   req.files.forEach(element => {
-    urls.push(element.url)
+    urls.push(element.path)
   });
 
   console.log('====================================');
-  console.log(urls);
+  console.log(req.files);
   console.log('====================================');
   console.log(req.body.timeOpen);
   console.log('====================================');

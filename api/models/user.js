@@ -43,7 +43,7 @@ const UserSchema = new Schema({
     follows: [{type: Schema.Types.ObjectId, ref: 'locations'}],
     avatar: {
         type: String,
-        default: 'http://icons-for-free.com/free-icons/png/512/2694141.png'
+        default: 'https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png'
     },
     permission: {
       type: String,

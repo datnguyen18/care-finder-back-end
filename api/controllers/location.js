@@ -72,21 +72,29 @@ exports.edit_location = (req, res) => {
   req.files.forEach(element => {
     urls.push(element.path)
   });
+
+  const request ={}
   const address = {}
   if(req.body.street) {
     address.street = req.body.street;
     address.ward = req.body.ward;
     address.district = req.body.district;
     address.city = req.body.city;
+    request.address  =address
   } 
 
   let coordinates = {};
   if(req.body.latitude){
     coordinates.latitude = req.body.latitude;
     coordinates.longitude = req.body.longitude;
+    request.coordinates= coordinates;
   }
 
-  Location.findByIdAndUpdate(req.params.idLocation, {$push: {imageUrls: {$each: urls}} , $set: req.body}, {new: true}, (err, doc) => {
+  for(key in req.body) {
+    request[key] = req.body[key]
+  }
+
+  Location.findByIdAndUpdate(req.params.idLocation, {$push: {imageUrls: {$each: urls}} , $set: request} , {new: true}, (err, doc) => {
     if(err) {
       return res.status(400).json({
         err

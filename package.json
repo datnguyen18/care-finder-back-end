@@ -28,7 +28,7 @@
     "multer-storage-cloudinary": "^2.2.1",
     "qrcode": "^1.3.3",
     "socket.io": "^2.2.0",
-    "validator": "^10.6.0"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "eslint": "^5.7.0",
